@@ -16,12 +16,18 @@ func start(c *gin.Context) {
 	c.Data(http.StatusOK, "application/text", []byte("Tjena"))
 }
 
+func enableCors(c *gin.Context) {
+	(*c).Header("Access-Control-Allow-Origin", "*")
+}
+
 func apiStats(c *gin.Context) {
+	enableCors(c)
 	totalGames, wins := data.Stats()
 	c.JSON(http.StatusOK, gin.H{"totalGames": totalGames, "wins": wins})
 }
 
 func apiPlay(c *gin.Context) {
+	enableCors(c)
 	yourSelection := c.Query("yourSelection")
 	mySelection := randomizeSelection()
 	winner := "Tie"
